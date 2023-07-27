@@ -18,10 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.model.JwtRequest;
 import com.spring.model.JwtResponse;
+import com.spring.model.User;
+import com.spring.service.UserService;
 import com.spring.util.JwtHelper;
 
 @RestController
 @RequestMapping("/auth")
+//any one can access by providing credentials
 public class AuthController {
 
     @Autowired
@@ -30,6 +33,8 @@ public class AuthController {
     @Autowired
     private AuthenticationManager manager;
 
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private JwtHelper helper;
@@ -70,5 +75,10 @@ public class AuthController {
         return "Credentials Invalid !!";
     }
 
+    @PostMapping("/save")
+    public User createUser(@RequestBody User user) {
+    	User createUser = userService.createUser(user);
+    	return createUser;
+    }
 }
 
